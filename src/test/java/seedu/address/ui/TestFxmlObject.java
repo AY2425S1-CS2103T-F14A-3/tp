@@ -1,7 +1,5 @@
 package seedu.address.ui;
 
-import java.util.Objects;
-
 import javafx.beans.DefaultProperty;
 
 /**
@@ -29,17 +27,9 @@ public class TestFxmlObject {
 
     @Override
     public boolean equals(Object other) {
-        if (other == this) {
-            return true;
-        }
-
-        // instanceof handles nulls
-        if (!(other instanceof TestFxmlObject)) {
-            return false;
-        }
-
-        TestFxmlObject otherTestFxmlObject = (TestFxmlObject) other;
-        return Objects.equals(text, otherTestFxmlObject.text);
+        return other == this // short circuit if same object
+                || (other instanceof TestFxmlObject // instanceof handles nulls
+                        && text.equals(((TestFxmlObject) other).getText()));
     }
 
 }
