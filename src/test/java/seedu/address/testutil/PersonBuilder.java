@@ -3,7 +3,6 @@ package seedu.address.testutil;
 import java.util.HashSet;
 import java.util.Set;
 
-import seedu.address.model.person.Address;
 import seedu.address.model.person.ClientStatus;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -22,7 +21,6 @@ public class PersonBuilder {
     public static final String DEFAULT_NAME = "Amy Bee";
     public static final String DEFAULT_PHONE = "85355255";
     public static final String DEFAULT_EMAIL = "amy@gmail.com";
-    public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
     public static final String DEFAULT_PROJECT_STATUS = "in progress";
     public static final String DEFAULT_PAYMENT_STATUS = "unpaid";
     public static final String DEFAULT_CLIENT_STATUS = "active";
@@ -30,7 +28,6 @@ public class PersonBuilder {
     private Name name;
     private Phone phone;
     private Email email;
-    private Address address;
     private Set<Tag> tags;
     private ProjectStatus projectStatus;
     private PaymentStatus paymentStatus;
@@ -43,7 +40,6 @@ public class PersonBuilder {
         name = new Name(DEFAULT_NAME);
         phone = new Phone(DEFAULT_PHONE);
         email = new Email(DEFAULT_EMAIL);
-        address = new Address(DEFAULT_ADDRESS);
         tags = new HashSet<>();
         projectStatus = new ProjectStatus(DEFAULT_PROJECT_STATUS);
         paymentStatus = new PaymentStatus(DEFAULT_PAYMENT_STATUS);
@@ -57,7 +53,6 @@ public class PersonBuilder {
         name = personToCopy.getName();
         phone = personToCopy.getPhone();
         email = personToCopy.getEmail();
-        address = personToCopy.getAddress();
         tags = new HashSet<>(personToCopy.getTags());
         projectStatus = personToCopy.getProjectStatus();
         paymentStatus = personToCopy.getPaymentStatus();
@@ -77,14 +72,6 @@ public class PersonBuilder {
      */
     public PersonBuilder withTags(String ... tags) {
         this.tags = SampleDataUtil.getTagSet(tags);
-        return this;
-    }
-
-    /**
-     * Sets the {@code Address} of the {@code Person} that we are building.
-     */
-    public PersonBuilder withAddress(String address) {
-        this.address = new Address(address);
         return this;
     }
 
@@ -128,7 +115,7 @@ public class PersonBuilder {
     }
 
     public Person build() {
-        return new Person(name, phone, email, address, tags, projectStatus, paymentStatus, clientStatus);
+        return new Person(name, phone, email, tags, projectStatus, paymentStatus, clientStatus);
     }
 
 }

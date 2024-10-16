@@ -22,7 +22,6 @@ public class Person {
     private final Email email;
 
     // Data fields
-    private final Address address;
     private final Set<Tag> tags = new HashSet<>();
     private final ProjectStatus projectStatus;
     private final PaymentStatus paymentStatus;
@@ -31,13 +30,12 @@ public class Person {
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, ProjectStatus projectStatus,
+    public Person(Name name, Phone phone, Email email, Set<Tag> tags, ProjectStatus projectStatus,
                   PaymentStatus paymentStatus, ClientStatus clientStatus) {
-        requireAllNonNull(name, phone, email, address, tags);
+        requireAllNonNull(name, phone, email, tags);
         this.name = name;
         this.phone = phone;
         this.email = email;
-        this.address = address;
         this.tags.addAll(tags);
         this.projectStatus = (projectStatus != null)
                 ? projectStatus : new ProjectStatus("in progress"); // Default value
@@ -57,10 +55,6 @@ public class Person {
 
     public Email getEmail() {
         return email;
-    }
-
-    public Address getAddress() {
-        return address;
     }
 
     /**
@@ -116,7 +110,6 @@ public class Person {
         return name.equals(otherPerson.name)
                 && phone.equals(otherPerson.phone)
                 && email.equals(otherPerson.email)
-                && address.equals(otherPerson.address)
                 && tags.equals(otherPerson.tags)
                 && projectStatus.equals(otherPerson.projectStatus)
                 && paymentStatus.equals(otherPerson.paymentStatus)
@@ -126,7 +119,7 @@ public class Person {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, tags, projectStatus, paymentStatus, clientStatus);
+        return Objects.hash(name, phone, email, tags, projectStatus, paymentStatus, clientStatus);
     }
 
     @Override
@@ -135,7 +128,6 @@ public class Person {
                 .add("name", name)
                 .add("phone", phone)
                 .add("email", email)
-                .add("address", address)
                 .add("tags", tags)
                 .add("projectStatus", projectStatus)
                 .add("paymentStatus", paymentStatus)
