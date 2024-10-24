@@ -144,6 +144,21 @@ Examples:
 
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 
+### Sort Client List: `sort`
+
+Sorts the client list in ascending order by the specified field.
+
+Format: sort `FIELD`
+
+* `FIELD` can be either `deadline` or `name`.
+* `FIELD` are case-sensitive. e.g., `sort name` is valid, but `sort NAME` will result in an error.
+* Sorting by name arranges clients in alphabetical order.
+* Sorting by deadline arranges clients in ascending order based on their project deadlines, with earlier dates appearing first and later dates at the back.
+
+Examples:
+* `sort name` sorts the client list alphabetically by name.
+* `sort deadline` sorts the client list by project deadline (earlier dates first). 
+
 ### Delete Client Details : `delete`
 
 Deletes the specified person from Clientele+.
@@ -214,5 +229,6 @@ Action | Format, Examples
 **Delete** | `delete [n/NAME] [id/ID]`<br> e.g., `delete n/John Doe` or `delete id/4`
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​ [ps/PROJECT_STATUS] [py/PAYMENT_STATUS] [cs/CLIENT_STATUS]`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+**Sort** | `sort FIELD` <br> e.g., `sort name` or `sort deadline`
 **List** | `list`
 **Help** | `help`
