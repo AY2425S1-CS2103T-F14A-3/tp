@@ -125,6 +125,21 @@ Examples:
 *  `edit 2 n/Betsy Crower t/` Updates the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 *  `edit 1 ps/completed py/paid cs/old` Updates the project status, payment status and client status of the 1st person to be `completed`, `paid` and `old` respectively.
 
+### Sort Client List: `sort`
+
+Sorts the client list in ascending order by the specified field.
+
+Format: sort `FIELD`
+
+* `FIELD` can be either `deadline` or `name`.
+* `FIELD` are case-sensitive. e.g., `sort name` is valid, but `sort NAME` will result in an error.
+* Sorting by name arranges clients in alphabetical order.
+* Sorting by deadline arranges clients in ascending order based on their project deadlines, with earlier dates appearing first and later dates at the back.
+
+Examples:
+* `sort name` sorts the client list alphabetically by name.
+* `sort deadline` sorts the client list by project deadline (earlier dates first).
+
 ### Locating clients by name: `find`
 
 Finds persons whose names contain any of the given keywords.
@@ -143,21 +158,6 @@ Examples:
 * `find alex david` returns `Alex Yeoh`, `David Li`<br>
 
   ![result for 'find alex david'](images/findAlexDavidResult.png)
-
-### Sort Client List: `sort`
-
-Sorts the client list in ascending order by the specified field.
-
-Format: sort `FIELD`
-
-* `FIELD` can be either `deadline` or `name`.
-* `FIELD` are case-sensitive. e.g., `sort name` is valid, but `sort NAME` will result in an error.
-* Sorting by name arranges clients in alphabetical order.
-* Sorting by deadline arranges clients in ascending order based on their project deadlines, with earlier dates appearing first and later dates at the back.
-
-Examples:
-* `sort name` sorts the client list alphabetically by name.
-* `sort deadline` sorts the client list by project deadline (earlier dates first). 
 
 ### Delete Client Details : `delete`
 
