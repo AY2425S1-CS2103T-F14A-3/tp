@@ -6,7 +6,7 @@ title: User Guide
 Clientele+ seamlessly combines client contacts, payment tracking and more in one efficient package, tailored specifically for freelance software developers.
 
 * Table of Contents
-{:toc}
+  {:toc}
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -20,7 +20,7 @@ Clientele+ seamlessly combines client contacts, payment tracking and more in one
 
 1.  Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar clientele+.jar` command to run the application. <br>
     A GUI similar to the below should appear in a few seconds
-   ![Ui](images/Ui.png)
+    ![Ui](images/Ui.png)
 
 1. Type the command in the command box and press `Enter` to execute it. e.g. typing **`help`** and pressing `Enter` will open the help window.<br>
    Some example commands you can try:
@@ -75,7 +75,7 @@ Format: `help`
 
 Allows the user to add a new client with details about payment status, client status, and project status.
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​
+Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS d/DEADLINE [t/TAG]…​
 [ps/PROJECT_STATUS] [py/PAYMENT_STATUS] [cs/CLIENT_STATUS]`
 
 * Clients with the **same** `NAME`, `EMAIL` and `PHONE NUMBER` are considered duplicates and will not be added
@@ -85,9 +85,9 @@ Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​
 * `NAME` must not exist in Clientele+ already.
 * `PHONE_NUMBER` should be **Numeric** digits,may include “-” or spaces. Example: `555-1234` or `555 1234`.
 * `EMAIL`  Standard email format “user@example.com”
-* `PAYMENT STATUS` Acceptable values are `paid`, `unpaid`, `p`, `u`, `0` for **paid**, `1` for **unpaid**. Case insensitive.
-* `CLIENT STATUS`  Acceptable values are `active`, `unresponsive`, `potential`, `old`. Case sensitive.
-* `PROJECT STATUS` Acceptable values are `in progress`, `completed`. Case insensitive.
+* `PAYMENT_STATUS` Acceptable values are `paid`, `unpaid`, `p`, `u`, `0` for **paid**, `1` for **unpaid**. Case insensitive.
+* `CLIENT_STATUS`  Acceptable values are `active`, `unresponsive`, `potential`, `old`. Case sensitive.
+* `PROJECT_STATUS` Acceptable values are `in progress`, `completed`. Case insensitive.
 
 Examples:
 * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01
@@ -100,7 +100,7 @@ Displays a list of all clients and their details.
 
 Format: `list`
 
-### Update client details : `edit`
+### Update Client Details : `edit`
 
 Allows updating of various statuses of an existing client.
 
@@ -125,37 +125,27 @@ Examples:
 *  `edit 2 n/Betsy Crower t/` Updates the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 *  `edit 1 ps/completed py/paid cs/old` Updates the project status, payment status and client status of the 1st person to be `completed`, `paid` and `old` respectively.
 
-### Sort Client List: `sort`
+### Locating Clients By Name: `find`
 
-Sorts the client list in ascending order by the specified field.
+Finds persons in address book who match parameters specified. Values matched are case insensitive.
 
-Format: sort `FIELD`
-
-* `FIELD` can be either `deadline` or `name`.
-* `FIELD` are case-sensitive. e.g., `sort name` is valid, but `sort NAME` will result in an error.
-* Sorting by name arranges clients in alphabetical order.
-* Sorting by deadline arranges clients in ascending order based on their project deadlines, with earlier dates appearing first and later dates at the back.
-
-Examples:
-* `sort name` sorts the client list alphabetically by name.
-* `sort deadline` sorts the client list by project deadline (earlier dates first).
-
-### Locating clients by name: `find`
-
-Finds persons whose names contain any of the given keywords.
-
-Format: `find KEYWORD [MORE_KEYWORDS]`
+Format: `find [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]… [ps/PROJECT_STATUS] [py/PAYMENT_STATUS] [cs/CLIENT_STATUS] [d/deadline]`
 
 * The search is case-insensitive. e.g `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* Only the name is searched.
-* Only full words will be matched e.g. `Han` will not match `Hans`
 * Persons matching at least one keyword will be returned (i.e. `OR` search).
   e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+* Names only need to match the start of a word. e.g. `find n/Han` OR `find n/B`
+  matches `Hans Bo`
+* Phone number, email, address, project status, payment status, client status must match the exact string
+  e.g. `cs/in progress` will not match `cs/in prog`
+* Only 1 tag needs to be matched for person to be found
 
 Examples:
-* `find John` returns `john` and `John Doe`
-* `find alex david` returns `Alex Yeoh`, `David Li`<br>
+* `find n/John` returns `john` and `John Doe`
+* `find n/John ps/completed` returns all names with John as a starting word in a name
+  if they have a completed project status
+* `find n/alex david` returns `Alex Yeoh`, `David Li`<br>
 
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 
@@ -175,19 +165,62 @@ Examples:
 * `list` followed by `delete id/2` deletes the 2nd person in the list.
 * `find Betsy` followed by `delete id/1` deletes the 1st person in the results of the `find` command.
 
-### Clearing all entries : `clear`
+### Blacklist a Client : `blacklist`
+
+Marks a client as "blacklisted".
+
+Format: `blacklist index`
+
+* Marks the client specified by the index `index` as "blacklisted".
+* `index` refers to the index number shown in the displayed person list.
+* `index` **must be a positive integer** 1, 2, 3, ...
+
+Examples:
+* `blacklist 2` marks the second person in the list as blacklisted
+
+### Whitelist a Client : `whitelist`
+
+Whitelists a previously-blacklisted client.
+
+Format: `blacklist index cs/NEW_CLIENT_STATUS`
+
+* Changes the status of the client specified by the index `index` from "blacklisted" to `NEW_CLIENT_STATUS`.
+* `index` refers to the index number shown in the displayed person list.
+* `index` **must be a positive integer** 1, 2, 3, ...
+* `NEW_CLIENT_STATUS` refers to the new status of the client. Acceptable values are `potential`, `unresponsive`, `old` and `active`.
+
+Examples:
+* `blacklist 2 cs/active` whitelists the second person in the list and marks them as an `active` client.
+* `blacklist 1 cs/old` whitelists the first person in the list and marks them as an `old` client.
+
+### Sort Client List: `sort`
+
+Sorts the client list in ascending order by the specified field.
+
+Format: sort `FIELD`
+
+* `FIELD` can be either `deadline` or `name`.
+* `FIELD` are case-sensitive. e.g., `sort name` is valid, but `sort NAME` will result in an error.
+* Sorting by name arranges clients in alphabetical order.
+* Sorting by deadline arranges clients in ascending order based on their project deadlines, with earlier dates appearing first and later dates at the back.
+
+Examples:
+* `sort name` sorts the client list alphabetically by name.
+* `sort deadline` sorts the client list by project deadline (earlier dates first).
+
+### Clearing All Entries : `clear`
 
 Clears all entries from Clientele+.
 
 Format: `clear`
 
-### Exiting the program : `exit`
+### Exiting the Program : `exit`
 
 Exits the program.
 
 Format: `exit`
 
-### Saving the data
+### Saving the Data
 
 Clientele+ data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
@@ -228,7 +261,7 @@ Action | Format, Examples
 **Clear** | `clear`
 **Delete** | `delete [n/NAME] [id/ID]`<br> e.g., `delete n/John Doe` or `delete id/4`
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​ [ps/PROJECT_STATUS] [py/PAYMENT_STATUS] [cs/CLIENT_STATUS]`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+**Find** | `find [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]… [ps/PROJECT_STATUS] [py/PAYMENT_STATUS] [cs/CLIENT_STATUS] [d/deadline]`<br> e.g., `find n/James Jake ps/completed py/paid`
 **Sort** | `sort FIELD` <br> e.g., `sort name` or `sort deadline`
 **List** | `list`
 **Help** | `help`
